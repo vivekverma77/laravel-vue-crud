@@ -10,7 +10,7 @@
                 <h3 class="card-title">Product List</h3>
 
                 <div class="card-tools">
-                  
+                <input type="text" @keyup="searchUnit" v-model="search" placeholder="Search">
                   <button type="button" class="btn btn-sm btn-primary" @click="newModal">
                       <i class="fa fa-plus-square"></i>
                       Add New
@@ -140,6 +140,7 @@
             return {
                 editmode: false,
                 products : {},
+                search: '',
                 form: new Form({
                     id : '',
                     category : '',
@@ -167,6 +168,10 @@
 
               this.$Progress.finish();
           },
+          
+           searchUnit(){
+            axios.get('api/product/search?q='+this.search).then(({ data }) => (this.products = data.data));
+           },
           loadProducts(){
 
             // if(this.$gate.isAdmin()){

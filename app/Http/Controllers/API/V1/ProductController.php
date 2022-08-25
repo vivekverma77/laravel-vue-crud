@@ -136,4 +136,14 @@ class ProductController extends BaseController
 
         return response()->json(['success' => true]);
     }
+
+    public function search(Request $request)
+    {
+        $key = \Request::get('q');
+        $products = Product::where('name','LIKE',"%{$key}%")
+                                    ->with('category', 'tags')            
+                                    ->paginate(10);;
+        return $this->sendResponse($products, 'Product list');
+    }
+
 }
